@@ -1,6 +1,7 @@
 package org.jpos.rest.services.impl;
 
 
+import org.jpos.ee.DB;
 import org.jpos.rest.Exceptions.CustomExceptions.BadRequestException;
 import org.jpos.rest.dtos.response.Prueba;
 import org.jpos.rest.services.contracts.EchoService;

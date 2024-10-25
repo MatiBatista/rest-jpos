@@ -5,17 +5,19 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import io.swagger.jaxrs.listing.ApiListingResource;
-import io.swagger.jaxrs.listing.SwaggerSerializers;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.servers.Server;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.jpos.rest.Exceptions.ExceptionProvider;
-import org.jpos.rest.config.AutoRegisterFeature;
+
 import org.jpos.rest.config.inyection.MyApplicationBinder;
 
 
 import javax.ws.rs.ext.ContextResolver;
+import java.util.Arrays;
 
 public class App extends ResourceConfig {
 
@@ -24,10 +26,9 @@ public class App extends ResourceConfig {
         register(JacksonFeature.class);
         register(new App.Resolver());
         register(new MyApplicationBinder());
-        register(AutoRegisterFeature.class);
-        register(ApiListingResource.class);
-        register(SwaggerSerializers.class);
+        packages("org.jpos.rest.controllers");
         register(ExceptionProvider.class);
+
     }
 
 

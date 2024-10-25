@@ -2,7 +2,7 @@
 <!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN"
         "http://www.eclipse.org/jetty/configure_9_0.dtd">
 <Configure class="org.eclipse.jetty.webapp.WebAppContext">
-    <Set name="contextPath">/api</Set>
+    <Set name="contextPath">/issuer</Set>
     <Set name="descriptor"><SystemProperty name="jetty.home" default="."/>/webapp/WEB-INF/web.xml</Set>
     <Set name="war"><SystemProperty name="jetty.home" default="."/>
         /webapps/@warname@</Set>

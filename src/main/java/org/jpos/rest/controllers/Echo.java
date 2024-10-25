@@ -1,5 +1,6 @@
 package org.jpos.rest.controllers;
-import io.swagger.annotations.Api;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.jpos.rest.services.contracts.EchoService;
 
 
@@ -10,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/echo")
-@Api(value = "/echo", description = "Echo API")
+@Tag(name = "Echo")
 public class Echo {
 
     @Inject

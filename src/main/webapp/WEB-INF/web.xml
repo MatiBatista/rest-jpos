@@ -7,19 +7,22 @@
         <servlet-name>Sample-REST-API</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
+            <param-name>jersey.config.server.provider.packages</param-name>
+            <param-value>
+                io.swagger.v3.jaxrs2.integration.resources,
+            </param-value>
+        </init-param>
+        <init-param>
             <param-name>javax.ws.rs.Application</param-name>
             <param-value>org.jpos.rest.App</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    <servlet>
-        <servlet-name>Swagger Configuration</servlet-name>
-        <servlet-class>org.jpos.rest.config.SwaggerConfigurationServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
+
+
     <servlet-mapping>
         <servlet-name>Sample-REST-API</servlet-name>
-        <url-pattern>/jpos/*</url-pattern>
+        <url-pattern>/igwapi/v2.0/*</url-pattern>
     </servlet-mapping>
 
 </web-app>

@@ -3,32 +3,32 @@
 
 <Configure id="Server" class="org.eclipse.jetty.server.Server">
     <Get name="ThreadPool">
-      <Set name="minThreads" type="int"><Property name="threads.min" default="10"/></Set>
-      <Set name="maxThreads" type="int"><Property name="threads.max" default="200"/></Set>
-      <Set name="idleTimeout" type="int"><Property name="threads.timeout" default="60000"/></Set>
-      <Set name="detailedDump">false</Set>
+        <Set name="minThreads" type="int"><Property name="threads.min" default="10"/></Set>
+        <Set name="maxThreads" type="int"><Property name="threads.max" default="200"/></Set>
+        <Set name="idleTimeout" type="int"><Property name="threads.timeout" default="60000"/></Set>
+        <Set name="detailedDump">false</Set>
     </Get>
 
     <Call name="addBean">
-      <Arg>
-        <New class="org.eclipse.jetty.util.thread.ScheduledExecutorScheduler"/>
-      </Arg>
+        <Arg>
+            <New class="org.eclipse.jetty.util.thread.ScheduledExecutorScheduler"/>
+        </Arg>
     </Call>
 
     <New id="httpConfig" class="org.eclipse.jetty.server.HttpConfiguration">
-      <Set name="secureScheme">https</Set>
-      <Set name="securePort"><Property name="jetty.secure.port" default="8443" /></Set>
-      <Set name="outputBufferSize"><Property name="jetty.output.buffer.size" default="32768" /></Set>
-      <Set name="requestHeaderSize"><Property name="jetty.request.header.size" default="8192" /></Set>
-      <Set name="responseHeaderSize"><Property name="jetty.response.header.size" default="8192" /></Set>
-      <Set name="sendServerVersion"><Property name="jetty.send.server.version" default="true" /></Set>
-      <Set name="sendDateHeader"><Property name="jetty.send.date.header" default="false" /></Set>
-      <Set name="headerCacheSize">512</Set>
-      <!-- Uncomment to enable handling of X-Forwarded- style headers
-      <Call name="addCustomizer">
-        <Arg><New class="org.eclipse.jetty.server.ForwardedRequestCustomizer"/></Arg>
-      </Call>
-      -->
+        <Set name="secureScheme">https</Set>
+        <Set name="securePort"><Property name="jetty.secure.port" default="8443" /></Set>
+        <Set name="outputBufferSize"><Property name="jetty.output.buffer.size" default="32768" /></Set>
+        <Set name="requestHeaderSize"><Property name="jetty.request.header.size" default="8192" /></Set>
+        <Set name="responseHeaderSize"><Property name="jetty.response.header.size" default="8192" /></Set>
+        <Set name="sendServerVersion"><Property name="jetty.send.server.version" default="true" /></Set>
+        <Set name="sendDateHeader"><Property name="jetty.send.date.header" default="false" /></Set>
+        <Set name="headerCacheSize">512</Set>
+        <!-- Uncomment to enable handling of X-Forwarded- style headers
+        <Call name="addCustomizer">
+          <Arg><New class="org.eclipse.jetty.server.ForwardedRequestCustomizer"/></Arg>
+        </Call>
+        -->
     </New>
 
 
@@ -76,21 +76,24 @@
 
 
     <Set name="handler">
-      <New id="Handlers" class="org.eclipse.jetty.server.handler.HandlerCollection">
-        <Set name="handlers">
-         <Array type="org.eclipse.jetty.server.Handler">
-           <Item>
-             <New id="Contexts" class="org.eclipse.jetty.server.handler.ContextHandlerCollection"/>
-           </Item>
-           <Item>
-             <New id="DefaultHandler" class="org.eclipse.jetty.server.handler.DefaultHandler"/>
-           </Item>
-           <Item>
-             <Ref refid="RewriteHandler"/>
-           </Item>
-         </Array>
-        </Set>
-      </New>
+        <New id="Handlers" class="org.eclipse.jetty.server.handler.HandlerCollection">
+            <Set name="handlers">
+                <Array type="org.eclipse.jetty.server.Handler">
+                    <Item>
+                        <New id="Contexts" class="org.eclipse.jetty.server.handler.ContextHandlerCollection"/>
+                    </Item>
+                    <Item>
+                        <New id="DefaultHandler" class="org.eclipse.jetty.server.handler.DefaultHandler"/>
+                    </Item>
+                    <Item>
+                        <New id="RequestLog" class="org.eclipse.jetty.server.handler.RequestLogHandler"/>
+                    </Item>
+                    <Item>
+                        <Ref refid="RewriteHandler"/>
+                    </Item>
+                </Array>
+            </Set>
+        </New>
     </Set>
 
     <!-- =========================================================== -->
@@ -102,27 +105,27 @@
     <Set name="dumpBeforeStop"><Property name="jetty.dump.stop" default="false"/></Set>
 
     <Call name="addConnector">
-      <Arg>
-        <New class="org.eclipse.jetty.server.ServerConnector">
-          <Arg name="server"><Ref refid="Server" /></Arg>
-          <Arg name="factories">
-            <Array type="org.eclipse.jetty.server.ConnectionFactory">
-              <Item>
-                <New class="org.eclipse.jetty.server.HttpConnectionFactory">
-                  <Arg name="config"><Ref refid="httpConfig" /></Arg>
-                </New>
-              </Item>
-            </Array>
-          </Arg>
-          <Set name="host"><Property name="jetty.host" /></Set>
-          <Set name="port"><Property name="jetty.port" default="8080" /></Set>
-          <Set name="idleTimeout"><Property name="http.timeout" default="30000"/></Set>
-          <Set name="soLingerTime"><Property name="http.soLingerTime" default="-1"/></Set>
-        </New>
-      </Arg>
+        <Arg>
+            <New class="org.eclipse.jetty.server.ServerConnector">
+                <Arg name="server"><Ref refid="Server" /></Arg>
+                <Arg name="factories">
+                    <Array type="org.eclipse.jetty.server.ConnectionFactory">
+                        <Item>
+                            <New class="org.eclipse.jetty.server.HttpConnectionFactory">
+                                <Arg name="config"><Ref refid="httpConfig" /></Arg>
+                            </New>
+                        </Item>
+                    </Array>
+                </Arg>
+                <Set name="host"><Property name="jetty.host" /></Set>
+                <Set name="port"><Property name="jetty.port" default="8080" /></Set>
+                <Set name="idleTimeout"><Property name="http.timeout" default="30000"/></Set>
+                <!--          <Set name="soLingerTime"><Property name="http.soLingerTime" default="-1"/></Set>-->
+            </New>
+        </Arg>
     </Call>
 
-    <New id="sslContextFactory" class="org.eclipse.jetty.util.ssl.SslContextFactory">
+    <New id="sslContextFactory" class="org.eclipse.jetty.util.ssl.SslContextFactory$Server">
         <Set name="KeyStorePath"><Property name="jetty.home" default="." />/cfg/keystore.jks</Set>
         <Set name="ExcludeCipherSuites">
             <Array type="java.lang.String">
@@ -193,118 +196,122 @@
                 <Set name="host"><Property name="jetty.host" /></Set>
                 <Set name="port"><Property name="jetty.secure.port" default="8443" /></Set>
                 <Set name="idleTimeout"><Property name="http.timeout" default="30000"/></Set>
-                <Set name="soLingerTime"><Property name="http.soLingerTime" default="-1"/></Set>
+                <!--                <Set name="soLingerTime"><Property name="http.soLingerTime" default="-1"/></Set>-->
             </New>
         </Arg>
     </Call>
 
-    <Call class="org.eclipse.jetty.util.log.Log" name="getRootLogger">
-      <Call name="setDebugEnabled">
-        <Arg type="boolean">true</Arg>
-      </Call>
-    </Call>
+    <!--    <Call class="org.eclipse.jetty.util.log.Log" name="getRootLogger">-->
+    <!--      <Call name="setDebugEnabled">-->
+    <!--        <Arg type="boolean">true</Arg>-->
+    <!--      </Call>-->
+    <!--    </Call>-->
 
-    <Call class="org.eclipse.jetty.webapp.Configuration$ClassList" name="setServerDefault">
-      <Arg><Ref refid="Server" /></Arg>
-      <Call name="addBefore">
-        <Arg name="beforeClass">org.eclipse.jetty.webapp.JettyWebXmlConfiguration</Arg>
-        <Arg>
-          <Array type="String">
-            <Item>org.eclipse.jetty.annotations.AnnotationConfiguration</Item>
-          </Array>
-        </Arg>
-      </Call>
-    </Call>
+    <!--    <Call class="org.eclipse.jetty.webapp.Configuration$ClassList" name="setServerDefault">-->
+    <!--      <Arg><Ref refid="Server" /></Arg>-->
+    <!--      <Call name="addBefore">-->
+    <!--        <Arg name="beforeClass">org.eclipse.jetty.webapp.JettyWebXmlConfiguration</Arg>-->
+    <!--        <Arg>-->
+    <!--          <Array type="String">-->
+    <!--            <Item>org.eclipse.jetty.annotations.AnnotationConfiguration</Item>-->
+    <!--          </Array>-->
+    <!--        </Arg>-->
+    <!--      </Call>-->
+    <!--    </Call>-->
 
     <Get id="oldhandler" name="handler"/>
     <Set name="handler">
-      <New id="DebugHandler" class="org.eclipse.jetty.server.handler.DebugHandler">
-        <Set name="handler"><Ref refid="oldhandler"/></Set>
-        <Set name="outputStream">
-          <New class="org.eclipse.jetty.util.RolloverFileOutputStream">
-            <Arg type="String"><Property name="jetty.logs" default="./log"/>/yyyy_mm_dd.debug.log</Arg>
-            <Arg type="boolean">true</Arg> <!-- append -->
-            <Arg type="int">90</Arg> <!-- retain days -->
-          </New>
-        </Set>
-      </New>
-    </Set>
-
-    <Set name="handler">
-      <New id="Handlers" class="org.eclipse.jetty.server.handler.HandlerCollection">
-        <Set name="handlers">
-        <Array type="org.eclipse.jetty.server.Handler">
-            <Item>
-            <New id="Contexts" class="org.eclipse.jetty.server.handler.ContextHandlerCollection"/>
-            </Item>
-            <Item>
-            <New id="DefaultHandler" class="org.eclipse.jetty.server.handler.DefaultHandler"/>
-            </Item>
-            <Item>
-            <New id="RequestLog" class="org.eclipse.jetty.server.handler.RequestLogHandler"/>
-            </Item>
-        </Array>
-        </Set>
-      </New>
-    </Set>
-
-    <Ref refid="RequestLog">
-      <Set name="requestLog">
-        <New id="RequestLogImpl" class="org.eclipse.jetty.server.NCSARequestLog">
-        <Arg><SystemProperty name="jetty.logs" default="./log"/>/yyyy_mm_dd.request.log</Arg>
-        <Set name="retainDays">90</Set>
-        <Set name="append">true</Set>
-        <Set name="extended">false</Set>
-        <Set name="LogTimeZone">GMT</Set>
+        <New id="DebugHandler" class="org.eclipse.jetty.server.handler.DebugHandler">
+            <Set name="handler"><Ref refid="oldhandler"/></Set>
+            <Set name="outputStream">
+                <New class="org.eclipse.jetty.util.RolloverFileOutputStream">
+                    <Arg type="String"><Property name="jetty.logs" default="./log"/>/yyyy_mm_dd.debug.log</Arg>
+                    <Arg type="boolean">true</Arg> <!-- append -->
+                    <Arg type="int">90</Arg> <!-- retain days -->
+                </New>
+            </Set>
         </New>
-      </Set>
+    </Set>
+
+    <!--    <Set name="handler">-->
+    <!--      <New id="Handlers" class="org.eclipse.jetty.server.handler.HandlerCollection">-->
+    <!--        <Set name="handlers">-->
+    <!--        <Array type="org.eclipse.jetty.server.Handler">-->
+    <!--            <Item>-->
+    <!--            <New id="Contexts" class="org.eclipse.jetty.server.handler.ContextHandlerCollection"/>-->
+    <!--            </Item>-->
+    <!--            <Item>-->
+    <!--            <New id="DefaultHandler" class="org.eclipse.jetty.server.handler.DefaultHandler"/>-->
+    <!--            </Item>-->
+    <!--            <Item>-->
+    <!--            <New id="RequestLog" class="org.eclipse.jetty.server.handler.RequestLogHandler"/>-->
+    <!--            </Item>-->
+    <!--        </Array>-->
+    <!--        </Set>-->
+    <!--      </New>-->
+    <!--    </Set>-->
+
+    <!-- https://github.com/spring-projects/spring-boot/issues/16416   -->
+    <!--  https://www.eclipse.org/jetty/javadoc/jetty-9/org/eclipse/jetty/server/NCSARequestLog.html#field.summary  -->
+    <!--  https://www.eclipse.org/jetty/javadoc/jetty-9/org/eclipse/jetty/server/CustomRequestLog.html  -->
+    <Ref refid="RequestLog">
+        <Set name="requestLog">
+            <!--        <New id="RequestLogImpl" class="org.eclipse.jetty.server.NCSARequestLog">-->
+            <New id="RequestLogImpl" class="org.eclipse.jetty.server.CustomRequestLog">
+                <Arg><SystemProperty name="jetty.logs" default="./log"/>/yyyy_mm_dd.request.log</Arg>
+                <!--        <Set name="retainDays">90</Set>-->
+                <!--        <Set name="append">true</Set>-->
+                <!--        <Set name="extended">false</Set>-->
+                <!--        <Set name="LogTimeZone">GMT</Set>-->
+            </New>
+        </Set>
     </Ref>
 
     <Call name="addBean">
-      <Arg>
-        <New id="DeploymentManager" class="org.eclipse.jetty.deploy.DeploymentManager">
-          <Set name="contexts">
-            <Ref refid="Contexts" />
-          </Set>
-          <Call name="setContextAttribute">
-            <Arg>org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern</Arg>
-            <Arg>.*/[^/]*servlet-api-[^/]*\.jar$|.*/javax.servlet.jsp.jstl-.*\.jar$|.*/org.apache.taglibs.taglibs-standard-impl-.*\.jar$</Arg>
-          </Call>
-            <Call id="webappprovider" name="addAppProvider">
-                <Arg>
-                    <New class="org.eclipse.jetty.deploy.providers.WebAppProvider">
-                        <Set name="monitoredDirName">
-                            <Property>
-                                <Name>jetty.deploy.monitoredPath</Name>
-                                <Default>
-                                    <Property name="jetty.base" default="." />/<Property name="jetty.deploy.monitoredDir" deprecated="jetty.deploy.monitoredDirName" default="webapps"/>
-                                </Default>
-                            </Property>
-                        </Set>
-                        <Set name="defaultsDescriptor">
-                            <Property>
-                                <Name>jetty.deploy.defaultsDescriptorPath</Name>
-                                <Default>
-                                    <Property name="jetty.home" default="." />/cfg/webdefault.xml
-                                </Default>
-                            </Property>
-                        </Set>
-                        <Set name="scanInterval"><Property name="jetty.deploy.scanInterval" default="1"/></Set>
-                        <Set name="extractWars"><Property name="jetty.deploy.extractWars" default="true"/></Set>
-                        <Set name="configurationManager">
-                            <New class="org.eclipse.jetty.deploy.PropertiesConfigurationManager">
-                                <!-- file of context configuration properties
-                                <Set name="file"><SystemProperty name="jetty.base"/>/etc/some.properties</Set>
-                                -->
-                                <!-- set a context configuration property
-                                <Call name="put"><Arg>name</Arg><Arg>value</Arg></Call>
-                                -->
-                            </New>
-                        </Set>
-                    </New>
-                </Arg>
-            </Call>
-        </New>
-      </Arg>
+        <Arg>
+            <New id="DeploymentManager" class="org.eclipse.jetty.deploy.DeploymentManager">
+                <Set name="contexts">
+                    <Ref refid="Contexts" />
+                </Set>
+                <Call name="setContextAttribute">
+                    <Arg>org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern</Arg>
+                    <Arg>.*/[^/]*servlet-api-[^/]*\.jar$|.*/javax.servlet.jsp.jstl-.*\.jar$|.*/org.apache.taglibs.taglibs-standard-impl-.*\.jar$</Arg>
+                </Call>
+                <Call id="webappprovider" name="addAppProvider">
+                    <Arg>
+                        <New class="org.eclipse.jetty.deploy.providers.WebAppProvider">
+                            <Set name="monitoredDirName">
+                                <Property>
+                                    <Name>jetty.deploy.monitoredPath</Name>
+                                    <Default>
+                                        <Property name="jetty.base" default="." />/<Property name="jetty.deploy.monitoredDir" deprecated="jetty.deploy.monitoredDirName" default="webapps"/>
+                                    </Default>
+                                </Property>
+                            </Set>
+                            <Set name="defaultsDescriptor">
+                                <Property>
+                                    <Name>jetty.deploy.defaultsDescriptorPath</Name>
+                                    <Default>
+                                        <Property name="jetty.home" default="." />/cfg/webdefault.xml
+                                    </Default>
+                                </Property>
+                            </Set>
+                            <Set name="scanInterval"><Property name="jetty.deploy.scanInterval" default="1"/></Set>
+                            <Set name="extractWars"><Property name="jetty.deploy.extractWars" default="true"/></Set>
+                            <Set name="configurationManager">
+                                <New class="org.eclipse.jetty.deploy.PropertiesConfigurationManager">
+                                    <!-- file of context configuration properties
+                                    <Set name="file"><SystemProperty name="jetty.base"/>/etc/some.properties</Set>
+                                    -->
+                                    <!-- set a context configuration property
+                                    <Call name="put"><Arg>name</Arg><Arg>value</Arg></Call>
+                                    -->
+                                </New>
+                            </Set>
+                        </New>
+                    </Arg>
+                </Call>
+            </New>
+        </Arg>
     </Call>
 </Configure>
