@@ -6,6 +6,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 
+import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.integration.SwaggerConfiguration;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
@@ -16,9 +20,22 @@ import org.jpos.rest.Exceptions.ExceptionProvider;
 import org.jpos.rest.config.inyection.MyApplicationBinder;
 
 
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.Path;
 import javax.ws.rs.ext.ContextResolver;
-import java.util.Arrays;
 
+
+
+@Path("/")
+@OpenAPIDefinition(
+        info = @io.swagger.v3.oas.annotations.info.Info(
+                title = "CABAL | Card Service REST API",
+                version = "1.0.0"
+        ),
+        servers = {
+                @io.swagger.v3.oas.annotations.servers.Server(url = "/issuer/igwapi/v2.0")
+        }
+)
 public class App extends ResourceConfig {
 
     public App() {
@@ -26,9 +43,9 @@ public class App extends ResourceConfig {
         register(JacksonFeature.class);
         register(new App.Resolver());
         register(new MyApplicationBinder());
-        packages("org.jpos.rest.controllers");
+        packages("org.jpos.rest");
         register(ExceptionProvider.class);
-
+        register(OpenApiResource.class);
     }
 
 

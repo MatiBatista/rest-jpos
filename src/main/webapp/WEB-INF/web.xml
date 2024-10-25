@@ -9,7 +9,7 @@
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
             <param-value>
-                io.swagger.v3.jaxrs2.integration.resources,
+                io.swagger.v3.jaxrs2.integration.resources
             </param-value>
         </init-param>
         <init-param>
