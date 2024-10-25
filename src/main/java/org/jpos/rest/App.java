@@ -29,7 +29,7 @@ import javax.ws.rs.ext.ContextResolver;
 @Path("/")
 @OpenAPIDefinition(
         info = @io.swagger.v3.oas.annotations.info.Info(
-                title = "CABAL | Card Service REST API",
+                title = "CABAL | Integración con Thales TGI",
                 version = "1.0.0"
         ),
         servers = {
