@@ -149,10 +149,6 @@ public class CardDigitizationRequestDTO {
 
 
 
-
-
-
-
     public static class TokenRequestor {
         private String id;
         private String originalTokenRequestorId;
