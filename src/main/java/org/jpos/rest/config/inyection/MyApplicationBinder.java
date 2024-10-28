@@ -12,7 +12,7 @@ public class MyApplicationBinder extends AbstractBinder {
     protected void configure() {
 
         bind(new EchoServiceImpl()).to(EchoService.class);
-
+        bind(new ThalesServiceImpl()).to(ThalesService.class);
     }
 }
 

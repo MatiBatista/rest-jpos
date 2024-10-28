@@ -9,7 +9,7 @@ public class Utils implements Constants {
 
     public static String getHostname() {
         String hostname = System.getenv(ENVIRONMENT_VAR_HOSTNAME);
-        if (hostname != null && !hostname.trim().equals("")) {
+        if (hostname != null && !hostname.trim().isEmpty()) {
             return hostname;
         } else {
             return System.getenv(ENVIRONMENT_VAR_COMPUTERNAME);
@@ -18,7 +18,7 @@ public class Utils implements Constants {
 
     public static String getNode() {
         String node = System.getenv(ENVIRONMENT_VAR_NODE_NAME);
-        if (node != null && !node.trim().equals("")) {
+        if (node != null && !node.trim().isEmpty()) {
             if (node.length() <= 8) {
                 return node;
             }

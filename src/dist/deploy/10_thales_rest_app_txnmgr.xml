@@ -1,0 +1,45 @@
+<?xml version='1.0'?>
+<!DOCTYPE SYSTEM [
+        <!ENTITY nodo SYSTEM "nodo.inc">
+        ]>
+<cabal-rest-app-txnmgr class="org.jpos.transaction.TransactionManager" logger="Q2" realm="TransactionManager-app-rest">
+    <property name="queue" value="CABAL_REST_APP.TXN" />
+    <property name="sessions" value="20" />
+    <property name="max-sessions" value="100" />
+    <property name="max-active-sessions" value="100" />
+    <property name="debug" value="true" />
+    <property name="pause-timeout" value="40000" />
+    <property name="call-selector-on-abort" value="true" />
+
+    <participant class="org.jpos.rest.participants.PrepareContextApp"  logger="Q2" realm="PrepareContextApp" />
+
+    <participant class="org.jpos.transaction.Open" logger="Q2" realm="Open">
+        <property name="checkpoint" value="Open" />
+        <property name="timeout" value="300" />
+    </participant>
+
+    <participant class="org.jpos.rest.participants.Switch" logger="Q2" realm="Switch-AppTxnmgr">
+        <property name="ctx-key" value="TXN_TYPE" />
+        <property name="check_card_eligibility" value="checkCardEligibility  close sendresponse"/>
+        <property name="unknown" value="sendresponse" />
+    </participant>
+
+    <group name="checkCardEligibility">
+        <participant class="org.jpos.rest.participants.Prueba" logger="Q2" realm="prueba">
+            <property name="checkpoint" value="checkCardEligibility" />
+        </participant>
+    </group>
+
+    <group name="close">
+        <participant class="org.jpos.transaction.Close" logger="Q2" realm="CloseApp">
+            <property name="checkpoint" value="CloseApp" />
+        </participant>
+    </group>
+
+    <group name="sendresponse">
+        <participant class="org.jpos.rest.participants.SendResponse" logger="Q2" realm="SendResponse">
+            <property name="checkpoint" value="SendResponse" />
+        </participant>
+    </group>
+
+</cabal-rest-app-txnmgr>

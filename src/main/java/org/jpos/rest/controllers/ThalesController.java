@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.jpos.rest.dtos.request.CardDigitizationRequestDTO;
 import org.jpos.rest.services.contracts.ThalesService;
+import org.jpos.rest.utils.RestSupport;
 
 
 import javax.inject.Inject;
@@ -24,7 +25,10 @@ import javax.ws.rs.core.Response;
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
 @Tag(name = "ThalesController")
-public class ThalesController {
+public class ThalesController extends RestSupport {
+
+    @Inject
+    private ThalesService thalesService;
 
 
     @POST
@@ -40,7 +44,7 @@ public class ThalesController {
             required = true,
             content = @Content(schema = @Schema(implementation = CardDigitizationRequestDTO.class))
     ) CardDigitizationRequestDTO cardDigitizationRequestDTO) {
-        System.out.print(cardDigitizationRequestDTO);
+        thalesService.requestCardDigitization(cardDigitizationRequestDTO);
         return Response.ok(cardDigitizationRequestDTO,MediaType.APPLICATION_JSON) .status(Response.Status.OK)
                 .build();
     }
