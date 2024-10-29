@@ -3,6 +3,9 @@ package org.jpos.rest.services.impl;
 
 import org.jpos.ee.DB;
 import org.jpos.rest.Exceptions.CustomExceptions.BadRequestException;
+import org.jpos.rest.Exceptions.CustomExceptions.ConflictException;
+import org.jpos.rest.dtos.Enum.Thales_Response_Status;
+
 import org.jpos.rest.dtos.response.Prueba;
 import org.jpos.rest.services.contracts.EchoService;
 import org.jvnet.hk2.annotations.Service;
@@ -23,12 +26,12 @@ public class EchoServiceImpl implements EchoService {
     }
 
     @Override
-    public String echo(String message) {
+    public Response echo(String message) {
 
         if(message.equalsIgnoreCase("hola"))
-            throw new BadRequestException("No ingresar hola");
+            throw new BadRequestException(Thales_Response_Status.MISSING_MANDATORY_PARAMETER);
 
-        return message;
+        return Response.ok(new Prueba(message)).status(Response.Status.OK).build();
     }
 
 

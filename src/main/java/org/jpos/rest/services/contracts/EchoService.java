@@ -8,6 +8,6 @@ import javax.ws.rs.core.Response;
 @Contract
 public interface EchoService {
 
-    String echo(String message);
+    Response echo(String message);
     Response echo();
 }

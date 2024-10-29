@@ -18,6 +18,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.jpos.rest.Exceptions.ExceptionProvider;
 
 import org.jpos.rest.config.inyection.MyApplicationBinder;
+import org.jpos.rest.config.inyection.ObjectMapperProvider;
 
 
 import javax.ws.rs.ApplicationPath;
@@ -45,6 +46,7 @@ public class App extends ResourceConfig {
         register(new MyApplicationBinder());
         packages("org.jpos.rest");
         register(ExceptionProvider.class);
+        register(ObjectMapperProvider.class);
         register(OpenApiResource.class);
     }
 

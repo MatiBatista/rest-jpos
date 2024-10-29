@@ -1,7 +1,20 @@
 package org.jpos.rest.Exceptions.CustomExceptions;
 
+import org.jpos.rest.dtos.Enum.Thales_Response_Status;
+
+import org.jpos.rest.dtos.response.ErrorResponseDTO;
+
+//400
 public class BadRequestException extends RuntimeException{
-    public BadRequestException(String message){
-        super(message);
+
+    private ErrorResponseDTO errorResponseDTO;
+
+    public BadRequestException(Thales_Response_Status status){
+        super(status.getMessage());
+        errorResponseDTO = new ErrorResponseDTO(status.getCode(),status.getMessage());
+    }
+
+    public ErrorResponseDTO getErrorResponseDTO() {
+        return errorResponseDTO;
     }
 }
