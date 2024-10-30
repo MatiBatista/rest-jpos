@@ -1,6 +1,16 @@
 String archiveJarName="${project.name}-${project.version}.jar"
 String archiveWarName="${project.name}-${project.version}.war"
 String installDir=file("${project.buildDir}/install/${project.name}")
+
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Javadoc) {
+    options.encoding = 'UTF-8'
+}
+
 project.ext {
     def target = project.hasProperty('target') ? target : 'devel'
     targetConfiguration = configure(new Properties()) {

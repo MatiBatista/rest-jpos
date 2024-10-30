@@ -61,9 +61,15 @@ dependencies {
 
 }
 
-
+configurations.all {
+    resolutionStrategy.force 'org.slf4j:slf4j-api:1.7.30'
+}
 
 apply from: 'jpos-app.gradle'
+
+war {
+    filter(org.apache.tools.ant.filters.ReplaceTokens, tokens:[targetConfiguration])
+}
 
 installApp.dependsOn('war')
 dist.dependsOn('war')
