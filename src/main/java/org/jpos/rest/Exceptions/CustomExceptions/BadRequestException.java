@@ -11,7 +11,7 @@ public class BadRequestException extends RuntimeException{
 
     public BadRequestException(Thales_Response_Status status){
         super(status.getMessage());
-        errorResponseDTO = new ErrorResponseDTO(status.getCode(),status.getMessage());
+        errorResponseDTO = new ErrorResponseDTO(status.getCode(),status.getMessage(),"400");
     }
 
     public ErrorResponseDTO getErrorResponseDTO() {

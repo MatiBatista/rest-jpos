@@ -2,12 +2,7 @@ package org.jpos.rest.controllers;
 
 
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.jpos.rest.dtos.request.CardDigitizationRequestDTO;
 import org.jpos.rest.dtos.request.CheckCardEligibilityRequestDTO;
 import org.jpos.rest.dtos.request.SendOTPRequestDTO;
@@ -18,7 +13,6 @@ import org.jpos.rest.utils.RestSupport;
 
 
 import javax.inject.Inject;
-import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -35,7 +29,7 @@ public class ThalesController extends RestSupport implements ThalesControllerDel
 
 
     @Override
-    public Response checkCardEligibility(String xCorrelationId, String xIssuerId, CheckCardEligibilityRequestDTO checkCardEligibilityRequestDTO) {
+    public Response checkCardEligibility(String xCorrelationId, String xIssuerId, CheckCardEligibilityRequestDTO checkCardEligibilityRequestDTO) throws Exception {
 
         CheckCardEligibilityResponseDTO checkCardEligibilityResponseDTO=thalesService.checkCardEligibility(checkCardEligibilityRequestDTO);
 
@@ -44,7 +38,7 @@ public class ThalesController extends RestSupport implements ThalesControllerDel
 
 
     @Override
-    public Response requestCardDigitization(String xCorrelationId, String xIssuerId, CardDigitizationRequestDTO cardDigitizationRequestDTO) {
+    public Response requestCardDigitization(String xCorrelationId, String xIssuerId, CardDigitizationRequestDTO cardDigitizationRequestDTO) throws Exception {
 
         CardDigitalizationResponseDTO cardDigitalizationResponseDTO=thalesService.requestCardDigitization(cardDigitizationRequestDTO);
 
@@ -53,7 +47,7 @@ public class ThalesController extends RestSupport implements ThalesControllerDel
 
 
     @Override
-    public Response sendOTP(String xCorrelationId, String xIssuerId, SendOTPRequestDTO sendOTPRequestDTO) {
+    public Response sendOTP(String xCorrelationId, String xIssuerId, SendOTPRequestDTO sendOTPRequestDTO) throws Exception {
 
         thalesService.sendOTP(sendOTPRequestDTO);
 

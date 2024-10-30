@@ -37,7 +37,7 @@ public interface ThalesControllerDelegate {
                                                  description = "Request Card Digitization",
                                                  required = true,
                                                  content = @Content(schema = @Schema(implementation = CheckCardEligibilityRequestDTO.class))
-                                         ) CheckCardEligibilityRequestDTO checkCardEligibilityRequestDTO);
+                                         ) CheckCardEligibilityRequestDTO checkCardEligibilityRequestDTO) throws Exception;
 
 
 
@@ -57,7 +57,7 @@ public interface ThalesControllerDelegate {
                                                     description = "Request Card Digitization",
                                                     required = true,
                                                     content = @Content(schema = @Schema(implementation = CardDigitizationRequestDTO.class))
-                                            ) CardDigitizationRequestDTO cardDigitizationRequestDTO);
+                                            ) CardDigitizationRequestDTO cardDigitizationRequestDTO) throws Exception;
 
 
     @POST
@@ -74,6 +74,6 @@ public interface ThalesControllerDelegate {
                                     description = "Request Card Digitization",
                                     required = true,
                                     content = @Content(schema = @Schema(implementation = SendOTPRequestDTO.class))
-                            )SendOTPRequestDTO sendOTPRequestDTO);
+                            )SendOTPRequestDTO sendOTPRequestDTO) throws Exception;
 
 }

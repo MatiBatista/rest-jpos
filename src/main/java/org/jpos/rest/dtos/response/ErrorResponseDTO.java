@@ -2,6 +2,7 @@ package org.jpos.rest.dtos.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -14,9 +15,9 @@ public class ErrorResponseDTO implements Serializable {
     private String message;
 
 
-    public ErrorResponseDTO(Integer responseCode,String message){
+    public ErrorResponseDTO(Integer responseCode,String message, String status){
         this.timestamp = LocalDateTime.now();
-        this.status = "400";
+        this.status = status;
         this.responseCode =  responseCode;
         this.message = message;
     }

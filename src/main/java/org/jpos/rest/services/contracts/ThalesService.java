@@ -9,9 +9,9 @@ import org.jpos.rest.dtos.response.CheckCardEligibilityResponseDTO;
 
 @Contract
 public interface ThalesService {
-    CardDigitalizationResponseDTO requestCardDigitization(CardDigitizationRequestDTO cardDigitizationRequestDTO);
+    CardDigitalizationResponseDTO requestCardDigitization(CardDigitizationRequestDTO cardDigitizationRequestDTO) throws Exception;
 
-    CheckCardEligibilityResponseDTO checkCardEligibility(CheckCardEligibilityRequestDTO checkCardEligibilityRequestDTO);
+    CheckCardEligibilityResponseDTO checkCardEligibility(CheckCardEligibilityRequestDTO checkCardEligibilityRequestDTO) throws Exception;
 
-    void sendOTP(SendOTPRequestDTO sendOTPRequestDTO);
+    void sendOTP(SendOTPRequestDTO sendOTPRequestDTO) throws Exception;
 }

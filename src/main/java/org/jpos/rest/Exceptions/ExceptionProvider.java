@@ -46,7 +46,7 @@ public class ExceptionProvider implements ExceptionMapper<Throwable> {
                     .build();
 
         return Response.status(HttpStatus.INTERNAL_SERVER_ERROR_500)
-                .entity(exception.getMessage())
+                .entity(new ErrorResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR_500, "Internal Server Error","500"))
                 .type("application/json")
                 .build();
     }
