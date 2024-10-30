@@ -20,13 +20,30 @@
 
     <participant class="org.jpos.rest.participants.Switch" logger="Q2" realm="Switch-AppTxnmgr">
         <property name="ctx-key" value="TXN_TYPE" />
-        <property name="check_card_eligibility" value="checkCardEligibility  close sendresponse"/>
+        <property name="CHECK_CARD_ELIGIBILITY" value="checkCardEligibility  close sendresponse"/>
+        <property name="REQUEST_CARD_DIGITIZATION" value="requestCardDigitization  close sendresponse"/>
+        <property name="SEND_OTP" value="sendOtp  close sendresponse"/>
         <property name="unknown" value="sendresponse" />
     </participant>
 
     <group name="checkCardEligibility">
-        <participant class="org.jpos.rest.participants.Prueba" logger="Q2" realm="prueba">
+        <participant class="org.jpos.rest.participants.Prueba" logger="Q2" realm="prueba-checkCardEligibility">
             <property name="checkpoint" value="checkCardEligibility" />
+            <property name="group-name" value="checkCardEligibility"/>
+        </participant>
+    </group>
+
+    <group name="requestCardDigitization">
+        <participant class="org.jpos.rest.participants.Prueba" logger="Q2" realm="prueba-requestCardDigitization">
+            <property name="checkpoint" value="requestCardDigitization" />
+            <property name="group-name" value="requestCardDigitization"/>
+        </participant>
+    </group>
+
+    <group name="sendOtp">
+        <participant class="org.jpos.rest.participants.Prueba" logger="Q2" realm="prueba-sendOtp">
+            <property name="checkpoint" value="sendOtp" />
+            <property name="group-name" value="sendOtp"/>
         </participant>
     </group>
 

@@ -1,6 +1,9 @@
 package org.jpos.rest.dtos.response;
 
+
+
 import java.util.List;
+
 
 public class CardDigitalizationResponseDTO {
     private String issuerCardRefId;

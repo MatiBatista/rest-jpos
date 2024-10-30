@@ -1,10 +1,6 @@
 package org.jpos.rest.controllers;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.jpos.rest.dtos.response.Prueba;
 import org.jpos.rest.services.contracts.EchoService;
 
 
@@ -24,14 +20,7 @@ public class Echo {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response echo() {
-        return echoService.echo();
-    }
-
-    @POST
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response echo(String message){
-        return echoService.echo(message);
+        return Response.ok(echoService.echo()).build();
     }
 
 }

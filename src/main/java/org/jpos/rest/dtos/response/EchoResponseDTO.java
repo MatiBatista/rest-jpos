@@ -1,11 +1,11 @@
 package org.jpos.rest.dtos.response;
 
-public class Prueba {
+public class EchoResponseDTO {
 
     private String message;
 
 
-    public Prueba(String message) {
+    public EchoResponseDTO(String message) {
         this.message = message;
     }
 

@@ -1,5 +1,8 @@
 package org.jpos.rest.dtos.response;
 
+
+
+
 public class CheckCardEligibilityResponseDTO {
 
     private String issuerCardRefId;

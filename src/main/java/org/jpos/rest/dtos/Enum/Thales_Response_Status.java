@@ -11,6 +11,9 @@ public enum Thales_Response_Status {
     FRAUD_SUSPECTED(164,"Fraud Suspected"),
     FRAN_NOT_WHITELISTED(165,"FPAN is not whitelisted for the token requestor. It applies ONLY to American Express"),
     INVALID_FPAN(166,"Invalid FPAN"),
+    INVALID_METHOD_ID(501,"Invalid method ID"),
+    COMMUNICATION_CHANNEL_NOT_AVAILABLE(502,"Communication channel not available"),
+    METHOD_ID_NOT_VALID_ANYMORE(503,"Method ID is not valid anymore"),
     OPERATION_FAILED(911,"Operation failed"),
     UNEXPECTED_SERVER_ERROR(921,"Unexpected server error");
 
