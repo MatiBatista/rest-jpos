@@ -22,72 +22,41 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/")
-@Produces({MediaType.APPLICATION_JSON})
-@Consumes({MediaType.APPLICATION_JSON})
-@Tag(name = "ThalesController")
-public class ThalesController extends RestSupport {
 
-    @Inject
+public class ThalesController extends RestSupport implements ThalesControllerDelegate {
+
+
     private ThalesService thalesService;
 
-    @POST
-    @Path("/checkCardEligibility")
-    @Operation(summary = "Post check card is eligibile to digitization",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Solicitud procesada exitosamente."),
-                    @ApiResponse(responseCode = "400", description = "Solicitud incorrecta, URI de solicitud o encabezado inválido, o parámetro no estándar no compatible."),
-                    @ApiResponse(responseCode = "500", description = "Error interno del servidor.")
-            })
-    public Response checkCardEligibility(@HeaderParam("x-correlation-id") String xCorrelationId,
-                                         @HeaderParam("x-issuer-id") String xIssuerId,
-                                         @RequestBody(
-                                                 description = "Request Card Digitization",
-                                                 required = true,
-                                                 content = @Content(schema = @Schema(implementation = CheckCardEligibilityRequestDTO.class))
-                                         ) CheckCardEligibilityRequestDTO checkCardEligibilityRequestDTO) {
+    @Inject
+    public ThalesController(ThalesService thalesService) {
+        this.thalesService = thalesService;
+    }
+
+
+    @Override
+    public Response checkCardEligibility(String xCorrelationId, String xIssuerId, CheckCardEligibilityRequestDTO checkCardEligibilityRequestDTO) {
+
         CheckCardEligibilityResponseDTO checkCardEligibilityResponseDTO=thalesService.checkCardEligibility(checkCardEligibilityRequestDTO);
+
         return Response.ok(checkCardEligibilityRequestDTO, MediaType.APPLICATION_JSON).build();
     }
 
-    @POST
-    @Path("/requestCardDigitization")
-    @Operation(summary = "Post request card digitization",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Solicitud procesada exitosamente."),
-                    @ApiResponse(responseCode = "400", description = "Solicitud incorrecta, URI de solicitud o encabezado inválido, o parámetro no estándar no compatible."),
-                    @ApiResponse(responseCode = "500", description = "Error interno del servidor.")
-            })
-    public Response requestCardDigitization(@HeaderParam("x-correlation-id") String xCorrelationId,
-                                            @HeaderParam("x-issuer-id") String xIssuerId,
-                                            @RequestBody(
-                                                    description = "Request Card Digitization",
-                                                    required = true,
-                                                    content = @Content(schema = @Schema(implementation = CardDigitizationRequestDTO.class))
-                                            ) CardDigitizationRequestDTO cardDigitizationRequestDTO) {
+
+    @Override
+    public Response requestCardDigitization(String xCorrelationId, String xIssuerId, CardDigitizationRequestDTO cardDigitizationRequestDTO) {
+
         CardDigitalizationResponseDTO cardDigitalizationResponseDTO=thalesService.requestCardDigitization(cardDigitizationRequestDTO);
+
         return Response.ok(cardDigitalizationResponseDTO,MediaType.APPLICATION_JSON).build();
     }
 
-    @POST
-    @Path("/sendOTP")
-    @Operation(summary = "Post provides ID&V OTP",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Solicitud procesada exitosamente."),
-                    @ApiResponse(responseCode = "400", description = "Solicitud incorrecta, URI de solicitud o encabezado inválido, o parámetro no estándar no compatible."),
-                    @ApiResponse(responseCode = "500", description = "Error interno del servidor.")
-            })
-    public Response sendOTP(@HeaderParam("x-correlation-id") String xCorrelationId,
-                                            @HeaderParam("x-issuer-id") String xIssuerId,
-                                            @RequestBody(
-                                                    description = "Request Card Digitization",
-                                                    required = true,
-                                                    content = @Content(schema = @Schema(implementation = SendOTPRequestDTO.class))
-                                            )SendOTPRequestDTO sendOTPRequestDTO) {
+
+    @Override
+    public Response sendOTP(String xCorrelationId, String xIssuerId, SendOTPRequestDTO sendOTPRequestDTO) {
+
         thalesService.sendOTP(sendOTPRequestDTO);
+
         return Response.ok().build();
     }
-
-
-
 }
