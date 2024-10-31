@@ -25,7 +25,7 @@
         <property name="hibernate.c3p0.acquire_increment">5</property>
 
         <!-- Generación automática del esquema -->
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
 
         <!-- Mostrar SQL en consola -->
         <property name="hibernate.show_sql">true</property>
@@ -44,5 +44,6 @@
 
         <!-- Mapear clases -->
         <!-- <mapping class="com.tuempresa.model.TuEntidad"/> -->
+        <mapping class="org.jpos.rest.model.User"/>
     </session-factory>
 </hibernate-configuration>
