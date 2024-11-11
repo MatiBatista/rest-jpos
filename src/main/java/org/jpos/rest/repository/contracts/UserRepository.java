@@ -4,6 +4,7 @@ import org.glassfish.jersey.spi.Contract;
 import org.hibernate.Session;
 import org.jpos.rest.models.User;
 
+@Contract
 public interface UserRepository {
 
     void addUser(Session session, User user);

@@ -18,6 +18,7 @@ public class MyApplicationBinder extends AbstractBinder {
         bind(new EchoServiceImpl()).to(EchoService.class);
         bind(new ThalesServiceImpl()).to(ThalesService.class);
         bind(ThalesController.class).to(ThalesControllerDelegate.class);
+        bind(new UserRepositoryImpl()).to(UserRepositoryImpl.class);
 
 
     }

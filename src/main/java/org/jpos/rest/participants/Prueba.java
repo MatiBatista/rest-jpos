@@ -18,7 +18,9 @@ import java.io.Serializable;
 public class Prueba extends TxnSupport {
 
     private String groupName;
-    private UserRepository userRepository;
+
+
+    private UserRepositoryImpl userRepository;
 
 
     public void setConfiguration(Configuration cfg) throws ConfigurationException {
@@ -32,7 +34,7 @@ public class Prueba extends TxnSupport {
             Context ctx = (Context) o;
             info("ESTO ES UNA PRUEBA DE LA TRANSACCION " + groupName);
             org.jpos.ee.DB db= getDB(ctx);
-            User user=userRepository.getUserById(db.session(),2);
+            User user=userRepository.getUserById(db.session(),1);
             info(user.getName());
             if (groupName.equals("sendOtp")) {
                // ctx.put(REJECTION_REASON,Thales_Response_Status.CARD_REVOKED_OR_DELETED.name());

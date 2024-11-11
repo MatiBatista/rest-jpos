@@ -1,7 +1,4 @@
-<?xml version='1.0'?>
-<!DOCTYPE SYSTEM [
-        <!ENTITY nodo SYSTEM "nodo.inc">
-        ]>
+
 <cabal-rest-app-txnmgr class="org.jpos.transaction.TransactionManager" logger="Q2" realm="TransactionManager-app-rest">
     <property name="queue" value="CABAL_REST_APP.TXN" />
     <property name="sessions" value="20" />
