@@ -8,19 +8,12 @@ ext {
             jetty_xml        : "org.eclipse.jetty:jetty-xml:${jettyVersion}",
             jetty_webapp     : "org.eclipse.jetty:jetty-webapp:${jettyVersion}",
             jetty_deploy     : "org.eclipse.jetty:jetty-deploy:${jettyVersion}",
-            jetty_plus       : "org.eclipse.jetty:jetty-plus:${jettyVersion}",
             jetty_jmx        : "org.eclipse.jetty:jetty-jmx:${jettyVersion}",
-            jetty_jndi       : "org.eclipse.jetty:jetty-jndi:${jettyVersion}",
             jetty_annotations: "org.eclipse.jetty:jetty-annotations:${jettyVersion}",
             jetty_security   : "org.eclipse.jetty:jetty-security:${jettyVersion}",
-            jetty_policy     : "org.eclipse.jetty:jetty-policy:${jettyVersion}",
-            //    jetty_websocket: "org.eclipse.jetty.websocket:websocket-server:${jettyVersion9}",
-            //    jetty_websocket_jsr356: "org.eclipse.jetty.websocket:javax-websocket-server-impl:${jettyVersion9}",
             jetty_rewrite    : "org.eclipse.jetty:jetty-rewrite:${jettyVersion}",
             jetty_util       : "org.eclipse.jetty:jetty-util:${jettyVersion}",
-            jetty_servlets   : "org.eclipse.jetty:jetty-servlets:${jettyVersion}",
-            jetty_ajp        : "org.eclipse.jetty:jetty-ajp:${jettyVersion}",
-            //    jetty_continuation: "org.eclipse.jetty:jetty-continuation:${jettyVersion9}"
+            jetty_servlets   : "org.eclipse.jetty:jetty-servlets:${jettyVersion}"
     ]
     jettyLibs = [
             libraries.jetty_server,
@@ -29,10 +22,7 @@ ext {
             libraries.jetty_deploy,
             libraries.jetty_jmx,
             libraries.jetty_annotations,
-            //        libraries.jetty_websocket,
-            //        libraries.jetty_websocket_jsr356,
             libraries.jetty_security,
-            //        libraries.jetty_continuation,
             libraries.jetty_rewrite
     ]
 }

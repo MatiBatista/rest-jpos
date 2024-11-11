@@ -8,7 +8,14 @@ import java.time.LocalDateTime;
 
 public class ErrorResponseDTO implements Serializable {
 
+
+    //HACE REFERENCIA AL CODIGO DE ERROR DE THALES
     private Integer responseCode;
+
+    //HACE REFERENCIA AL TIPO DE CODIGO, YA SEA
+    // D --> ERROR DE DATOS
+    // S --> ERROR DE SISTEMAS
+    // F --> ERROR FUNCIONAL
     private String status;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime timestamp;

@@ -65,8 +65,6 @@ public interface ThalesControllerDelegate {
     @Operation(summary = "Post provides ID&V OTP",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Solicitud procesada exitosamente."),
-                    @ApiResponse(responseCode = "400", description = "Solicitud incorrecta, URI de solicitud o encabezado inválido, o parámetro no estándar no compatible."),
-                    @ApiResponse(responseCode = "500", description = "Error interno del servidor.")
             })
     public Response sendOTP(@HeaderParam("x-correlation-id") String xCorrelationId,
                             @HeaderParam("x-issuer-id") String xIssuerId,

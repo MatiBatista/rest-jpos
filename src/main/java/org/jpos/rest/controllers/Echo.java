@@ -20,7 +20,8 @@ public class Echo {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response echo() {
-        return Response.ok(echoService.echo()).build();
+
+       return Response.ok(echoService.echo()).build();
     }
 
 }
