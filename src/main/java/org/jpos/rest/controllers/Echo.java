@@ -5,10 +5,11 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.jpos.rest.services.contracts.EchoService;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+
 
 
 //@Tag(name = "Echo")
@@ -22,7 +23,7 @@ public class Echo {
     @Produces(MediaType.TEXT_PLAIN)
     public Response echo() {
         System.out.println("entraaaaaaaaaaaa");
-       return Response.ok().build();
+       return Response.ok("bautista").build();
     }
 
 }

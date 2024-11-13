@@ -19,7 +19,9 @@ dependencies {
 
     //jPos libs:
     providedCompile "org.jpos:jpos:2.1.9"
-    providedCompile "org.jpos.ee:jposee-eerest:2.2.8"
+    providedCompile("org.jpos.ee:jposee-eerest:2.2.8") {
+        exclude group: 'javax.ws.rs', module: 'javax.ws.rs-api'
+    }
 // https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
     implementation 'com.mysql:mysql-connector-j:8.3.0'
 
@@ -40,7 +42,7 @@ dependencies {
     providedCompile "org.jpos.ee:jposee-logback:2.2.8"
 
     //Jersey dependencies:
-    def jerseyVersion = '3.0.0'
+    def jerseyVersion = '3.1.9'
     providedCompile "org.glassfish.jersey.media:jersey-media-json-jackson:${jerseyVersion}"
     providedCompile "org.glassfish.jersey.core:jersey-server:${jerseyVersion}"
     providedCompile "org.glassfish.jersey.containers:jersey-container-servlet:${jerseyVersion}"

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.ext.ContextResolver;
 import org.glassfish.jersey.jackson.JacksonFeature;
@@ -27,6 +28,7 @@ import org.jpos.rest.config.inyection.MyApplicationBinder;
                 @io.swagger.v3.oas.annotations.servers.Server(url = "/issuer/igwapi/v2.0")
         }
 )
+@ApplicationPath("/api")
 public class App extends ResourceConfig {
 
     public App() {
@@ -37,7 +39,7 @@ public class App extends ResourceConfig {
         packages("org.jpos.rest");
         //register(ExceptionProvider.class);
        // register(ObjectMapperProvider.class);
-        register(OpenApiResource.class);
+        //register(OpenApiResource.class);
     }
 
 

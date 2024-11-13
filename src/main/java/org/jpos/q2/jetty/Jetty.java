@@ -18,26 +18,17 @@
 
 package org.jpos.q2.jetty;
 
-import jakarta.servlet.Servlet;
 import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.eclipse.jetty.ee10.servlet.ServletHolder;
-import org.eclipse.jetty.ee10.webapp.WebAppContext;
 import org.eclipse.jetty.server.*;
 
-import org.eclipse.jetty.util.resource.Resource;
-import org.eclipse.jetty.util.resource.ResourceFactory;
-import org.eclipse.jetty.xml.XmlConfiguration;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.glassfish.jersey.servlet.ServletProperties;
 import org.jpos.core.Configuration;
 import org.jpos.core.ConfigurationException;
 import org.jpos.q2.QBeanSupport;
-import org.jpos.rest.Handler.HelloWordHandler;
-import org.jpos.rest.controllers.EndpointConfig;
+import org.jpos.rest.App;
 import org.jpos.security.SensitiveString;
-
-
-import java.util.StringTokenizer;
 
 
 /**
@@ -66,13 +57,13 @@ public class Jetty extends QBeanSupport implements JettyMBean {
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.NO_SESSIONS);
         context.setContextPath("/api");
 
-        server.setHandler(context);
+
 
         ServletHolder servletHolder = context.addServlet(ServletContainer.class, "/*");
         servletHolder.setInitOrder(0);
-        servletHolder.setInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS,EndpointConfig.class.getName());
+        servletHolder.setInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS, App.class.getName());
 
-
+        server.setHandler(context);
 
 
        /* StringTokenizer st = new StringTokenizer(config, ", ");
