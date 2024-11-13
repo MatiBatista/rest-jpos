@@ -1,6 +1,6 @@
 package org.jpos.rest.services.impl;
 
-import org.jpos.rest.Exceptions.CustomExceptions.BadRequestException;
+
 import org.jpos.rest.dtos.Enum.Thales_Response_Status;
 import org.jpos.rest.dtos.request.CardDigitizationRequestDTO;
 import org.jpos.rest.dtos.request.CheckCardEligibilityRequestDTO;
@@ -32,7 +32,7 @@ public class ThalesServiceImpl extends RestSupport implements ThalesService {
             return new CheckCardEligibilityResponseDTO();
         }else{
             if(ctx.get(REJECTION_REASON)!=null){
-                throw new BadRequestException(Thales_Response_Status.valueOf(ctx.get(REJECTION_REASON)));
+                throw new RuntimeException();//BadRequestException(Thales_Response_Status.valueOf(ctx.get(REJECTION_REASON)));
             }
             throw new Exception();
         }
@@ -48,7 +48,9 @@ public class ThalesServiceImpl extends RestSupport implements ThalesService {
             return new CardDigitalizationResponseDTO();
         }else{
             if(ctx.get(REJECTION_REASON)!=null){
-                throw new BadRequestException(Thales_Response_Status.valueOf(ctx.get(REJECTION_REASON)));
+
+                throw new RuntimeException();
+                // throw new BadRequestException(Thales_Response_Status.valueOf(ctx.get(REJECTION_REASON)));
             }
             throw new Exception();
         }
@@ -61,7 +63,8 @@ public class ThalesServiceImpl extends RestSupport implements ThalesService {
         int result = queryTxnMgr(ctx, TIMEOUT, evt);
         if (TransactionManager.ABORTED == result) {
             if(ctx.get(REJECTION_REASON)!=null){
-                throw new BadRequestException(Thales_Response_Status.valueOf(ctx.get(REJECTION_REASON)));
+                throw new RuntimeException();
+                //throw new BadRequestException(Thales_Response_Status.valueOf(ctx.get(REJECTION_REASON)));
             }
             throw new Exception();
         }

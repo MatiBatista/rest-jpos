@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.ws.rs.*;
 import org.glassfish.jersey.spi.Contract;
 import org.jpos.rest.dtos.request.CardDigitizationRequestDTO;
 import org.jpos.rest.dtos.request.CheckCardEligibilityRequestDTO;
@@ -13,9 +14,8 @@ import org.jpos.rest.dtos.request.SendOTPRequestDTO;
 import org.jpos.rest.dtos.response.CardDigitalizationResponseDTO;
 import org.jpos.rest.dtos.response.CheckCardEligibilityResponseDTO;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 @Path("/")
 @Produces({MediaType.APPLICATION_JSON})

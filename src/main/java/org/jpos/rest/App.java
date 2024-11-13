@@ -8,23 +8,13 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.integration.SwaggerConfiguration;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.servers.Server;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.ext.ContextResolver;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.jpos.rest.Exceptions.ExceptionProvider;
+
 
 import org.jpos.rest.config.inyection.MyApplicationBinder;
-import org.jpos.rest.config.inyection.ObjectMapperProvider;
-
-
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.Path;
-import javax.ws.rs.ext.ContextResolver;
-
 
 
 @Path("/")
@@ -45,8 +35,8 @@ public class App extends ResourceConfig {
         register(new App.Resolver());
         register(new MyApplicationBinder());
         packages("org.jpos.rest");
-        register(ExceptionProvider.class);
-        register(ObjectMapperProvider.class);
+        //register(ExceptionProvider.class);
+       // register(ObjectMapperProvider.class);
         register(OpenApiResource.class);
     }
 

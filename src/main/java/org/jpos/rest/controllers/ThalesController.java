@@ -3,6 +3,10 @@ package org.jpos.rest.controllers;
 
 
 
+
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.jpos.rest.dtos.request.CardDigitizationRequestDTO;
 import org.jpos.rest.dtos.request.CheckCardEligibilityRequestDTO;
 import org.jpos.rest.dtos.request.SendOTPRequestDTO;
@@ -10,11 +14,6 @@ import org.jpos.rest.dtos.response.CardDigitalizationResponseDTO;
 import org.jpos.rest.dtos.response.CheckCardEligibilityResponseDTO;
 import org.jpos.rest.services.contracts.ThalesService;
 import org.jpos.rest.utils.RestSupport;
-
-
-import javax.inject.Inject;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 
 public class ThalesController extends RestSupport implements ThalesControllerDelegate {

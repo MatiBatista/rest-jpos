@@ -18,15 +18,24 @@
 
 package org.jpos.q2.jetty;
 
-import org.eclipse.jetty.server.Connector;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.SslConnectionFactory;
+import jakarta.servlet.Servlet;
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee10.servlet.ServletHolder;
+import org.eclipse.jetty.ee10.webapp.WebAppContext;
+import org.eclipse.jetty.server.*;
+
 import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.util.resource.ResourceFactory;
 import org.eclipse.jetty.xml.XmlConfiguration;
+import org.glassfish.jersey.servlet.ServletContainer;
+import org.glassfish.jersey.servlet.ServletProperties;
 import org.jpos.core.Configuration;
 import org.jpos.core.ConfigurationException;
 import org.jpos.q2.QBeanSupport;
+import org.jpos.rest.Handler.HelloWordHandler;
+import org.jpos.rest.controllers.EndpointConfig;
 import org.jpos.security.SensitiveString;
+
 
 import java.util.StringTokenizer;
 
@@ -40,26 +49,50 @@ public class Jetty extends QBeanSupport implements JettyMBean {
     private Server server;
     private SensitiveString keystorePassword;
 
+
+    private String page = "<html><body><h1>Hello world</h1><p>@content@</p></body></html>";
+
+
     @Override
     public void initService() throws Exception {
         server = new Server();
-        StringTokenizer st = new StringTokenizer(config, ", ");
+        HttpConfiguration httpConfig = new HttpConfiguration();
+        HttpConnectionFactory http11 = new HttpConnectionFactory(httpConfig);
+
+        ServerConnector connector = new ServerConnector(server, http11);
+        connector.setPort(8080);
+        server.addConnector(connector);
+
+        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.NO_SESSIONS);
+        context.setContextPath("/api");
+
+        server.setHandler(context);
+
+        ServletHolder servletHolder = context.addServlet(ServletContainer.class, "/*");
+        servletHolder.setInitOrder(0);
+        servletHolder.setInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS,EndpointConfig.class.getName());
+
+
+
+
+       /* StringTokenizer st = new StringTokenizer(config, ", ");
         while (st.hasMoreElements()) {
             String fis = st.nextToken();
-            Resource rsrc = Resource.newResource(fis);
+            ResourceFactory factory = ResourceFactory.root();
+            Resource rsrc = factory.newResource(fis);
             XmlConfiguration xml = new XmlConfiguration(rsrc);
             xml.configure(server);
             if (keystorePassword != null &&
-                    keystorePassword.get() != null && 
-                    keystorePassword.get().trim().length() > 0) {                    
+                    keystorePassword.get() != null &&
+                    keystorePassword.get().trim().length() > 0) {
                 for (Connector connector : server.getConnectors()) {
                     SslConnectionFactory connFactory = connector.getConnectionFactory(SslConnectionFactory.class);
                     if (connFactory != null) {
                         connFactory.getSslContextFactory().setKeyStorePassword(keystorePassword.get());
                     }
-                }    
+                }
             }
-        }
+        }*/
     }
 
     @Override

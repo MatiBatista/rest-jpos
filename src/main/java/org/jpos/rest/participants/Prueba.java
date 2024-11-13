@@ -3,15 +3,14 @@ package org.jpos.rest.participants;
 import org.jpos.core.Configuration;
 import org.jpos.core.ConfigurationException;
 import org.jpos.ee.DB;
-import org.jpos.rest.Exceptions.CustomExceptions.BadRequestException;
-import org.jpos.rest.dtos.Enum.Thales_Response_Status;
+
 import org.jpos.rest.models.User;
 import org.jpos.rest.repository.contracts.UserRepository;
 import org.jpos.rest.repository.impl.UserRepositoryImpl;
 import org.jpos.transaction.Context;
 import org.jpos.transaction.TxnSupport;
 
-import javax.inject.Inject;
+
 import java.io.Serializable;
 
 
