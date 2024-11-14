@@ -18,9 +18,15 @@
 
 package org.jpos.q2.jetty;
 
+import io.swagger.v3.jaxrs2.integration.OpenApiServlet;
+import org.eclipse.jetty.ee10.servlet.DefaultServlet;
 import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.eclipse.jetty.ee10.servlet.ServletHolder;
 import org.eclipse.jetty.server.*;
+
+import org.eclipse.jetty.server.handler.ContextHandler;
+import org.eclipse.jetty.server.handler.ContextHandlerCollection;
+import org.eclipse.jetty.server.handler.ResourceHandler;
 
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.glassfish.jersey.servlet.ServletProperties;
@@ -28,7 +34,10 @@ import org.jpos.core.Configuration;
 import org.jpos.core.ConfigurationException;
 import org.jpos.q2.QBeanSupport;
 import org.jpos.rest.App;
+import org.jpos.rest.controllers.Echo;
 import org.jpos.security.SensitiveString;
+
+import java.util.ServiceLoader;
 
 
 /**
@@ -41,49 +50,53 @@ public class Jetty extends QBeanSupport implements JettyMBean {
     private SensitiveString keystorePassword;
 
 
-    private String page = "<html><body><h1>Hello world</h1><p>@content@</p></body></html>";
-
-
     @Override
     public void initService() throws Exception {
+
+        //CREAMOS INSTANCIA DE SERVIDOR
         server = new Server();
+
+        //CONFIGURACION HTTP Y Y FABRICA DE CONEXIONES
         HttpConfiguration httpConfig = new HttpConfiguration();
         HttpConnectionFactory http11 = new HttpConnectionFactory(httpConfig);
 
+        //CREAMOS UN SERVER CONNECTOR PARA CONEXIONES DE CLIENTES
         ServerConnector connector = new ServerConnector(server, http11);
         connector.setPort(8080);
+        connector.setAcceptQueueSize(128);
         server.addConnector(connector);
 
+
+        // Crear contexto ContextHandlerCollection
+        ContextHandlerCollection contextos = new ContextHandlerCollection();
+        server.setHandler(contextos);
+
+
+
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.NO_SESSIONS);
-        context.setContextPath("/api");
-
-
-
-        ServletHolder servletHolder = context.addServlet(ServletContainer.class, "/*");
-        servletHolder.setInitOrder(0);
-        servletHolder.setInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS, App.class.getName());
-
+        context.setContextPath("/issuer");
         server.setHandler(context);
 
+        ServletHolder servletHolder = context.addServlet(ServletContainer.class, "/igwapi/v2.0/*");
+        servletHolder.setInitOrder(1);
+        servletHolder.setInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS, App.class.getName());
+        servletHolder.setInitParameter("jersey.config.server.provider.packages","io.swagger.v3.jaxrs2.integration.resources");
 
-       /* StringTokenizer st = new StringTokenizer(config, ", ");
-        while (st.hasMoreElements()) {
-            String fis = st.nextToken();
-            ResourceFactory factory = ResourceFactory.root();
-            Resource rsrc = factory.newResource(fis);
-            XmlConfiguration xml = new XmlConfiguration(rsrc);
-            xml.configure(server);
-            if (keystorePassword != null &&
-                    keystorePassword.get() != null &&
-                    keystorePassword.get().trim().length() > 0) {
-                for (Connector connector : server.getConnectors()) {
-                    SslConnectionFactory connFactory = connector.getConnectionFactory(SslConnectionFactory.class);
-                    if (connFactory != null) {
-                        connFactory.getSslContextFactory().setKeyStorePassword(keystorePassword.get());
-                    }
-                }
-            }
-        }*/
+
+        // Configurar recursos estáticos de Swagger-UI
+        String resourceBasePath = Jetty.class.getResource("/swagger-ui-dist").toExternalForm();
+        context.setWelcomeFiles(new String[] {"index.html"});
+        context.setBaseResourceAsString(resourceBasePath);
+        context.addServlet(new ServletHolder(new DefaultServlet()), "/*");
+
+
+        //CREAMOS CONTEXTOS
+       //ContextHandlerCollection collection = new ContextHandlerCollection();
+
+
+
+
+
     }
 
     @Override

@@ -15,7 +15,11 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 
+import org.jpos.rest.Exceptions.ExceptionProviders;
+import org.jpos.rest.Handler.HelloWordHandler;
+import org.jpos.rest.config.inyection.CORSFilter;
 import org.jpos.rest.config.inyection.MyApplicationBinder;
+import org.jpos.rest.config.inyection.ObjectMapperProvider;
 
 
 @Path("/")
@@ -28,7 +32,7 @@ import org.jpos.rest.config.inyection.MyApplicationBinder;
                 @io.swagger.v3.oas.annotations.servers.Server(url = "/issuer/igwapi/v2.0")
         }
 )
-@ApplicationPath("/api")
+//@ApplicationPath("/issuer/igwapi/v2.0")
 public class App extends ResourceConfig {
 
     public App() {
@@ -37,9 +41,11 @@ public class App extends ResourceConfig {
         register(new App.Resolver());
         register(new MyApplicationBinder());
         packages("org.jpos.rest");
-        //register(ExceptionProvider.class);
-       // register(ObjectMapperProvider.class);
-        //register(OpenApiResource.class);
+        register(ExceptionProviders.class);
+        register(ObjectMapperProvider.class);
+        register(OpenApiResource.class);
+        register(CORSFilter.class);
+
     }
 
 
