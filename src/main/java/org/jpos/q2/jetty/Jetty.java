@@ -37,6 +37,8 @@ import org.jpos.rest.App;
 import org.jpos.rest.controllers.Echo;
 import org.jpos.security.SensitiveString;
 
+import java.util.Arrays;
+import java.util.Properties;
 import java.util.ServiceLoader;
 
 
@@ -53,6 +55,9 @@ public class Jetty extends QBeanSupport implements JettyMBean {
     @Override
     public void initService() throws Exception {
 
+        //INSTANCIAMOS PROPERTIES
+        Properties prop = PropertiesManager.buildProperties("application.properties");
+
         //CREAMOS INSTANCIA DE SERVIDOR
         server = new Server();
 
@@ -62,8 +67,8 @@ public class Jetty extends QBeanSupport implements JettyMBean {
 
         //CREAMOS UN SERVER CONNECTOR PARA CONEXIONES DE CLIENTES
         ServerConnector connector = new ServerConnector(server, http11);
-        connector.setPort(8080);
-        connector.setAcceptQueueSize(128);
+        connector.setPort(Integer.parseInt(prop.getProperty("server.port")));
+        connector.setAcceptQueueSize(Integer.parseInt(prop.getProperty("server.setAcceptQueueSize")));
         server.addConnector(connector);
 
 
@@ -72,15 +77,18 @@ public class Jetty extends QBeanSupport implements JettyMBean {
         server.setHandler(contextos);
 
 
-
+        // configuracion de los handlers
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.NO_SESSIONS);
-        context.setContextPath("/issuer");
+        context.setContextPath("/");
         server.setHandler(context);
 
-        ServletHolder servletHolder = context.addServlet(ServletContainer.class, "/igwapi/v2.0/*");
-        servletHolder.setInitOrder(1);
-        servletHolder.setInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS, App.class.getName());
-        servletHolder.setInitParameter("jersey.config.server.provider.packages","io.swagger.v3.jaxrs2.integration.resources");
+        ServletHolder servletHolder = context.addServlet(ServletContainer.class, prop.getProperty("jetty.servletholder.path"));
+        servletHolder.setInitOrder(Integer.parseInt(prop.getProperty("jetty.servletholder.initOrder")));
+
+        Arrays.stream(prop.getProperty("jetty.servletholder.initParameters")
+                .split(","))//DIVIDIMOS ","
+                .map(e-> e.split(":")) //DIVIDIMOS ":"
+                .forEach(e->  servletHolder.setInitParameter(e[0],e[1]));
 
 
         // Configurar recursos estáticos de Swagger-UI
@@ -88,13 +96,6 @@ public class Jetty extends QBeanSupport implements JettyMBean {
         context.setWelcomeFiles(new String[] {"index.html"});
         context.setBaseResourceAsString(resourceBasePath);
         context.addServlet(new ServletHolder(new DefaultServlet()), "/*");
-
-
-        //CREAMOS CONTEXTOS
-       //ContextHandlerCollection collection = new ContextHandlerCollection();
-
-
-
 
 
     }
