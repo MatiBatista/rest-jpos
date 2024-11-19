@@ -40,6 +40,7 @@ import org.jpos.security.SensitiveString;
 import java.util.Arrays;
 import java.util.Properties;
 import java.util.ServiceLoader;
+import java.util.stream.IntStream;
 
 
 /**
@@ -85,11 +86,17 @@ public class Jetty extends QBeanSupport implements JettyMBean {
         ServletHolder servletHolder = context.addServlet(ServletContainer.class, prop.getProperty("jetty.servletholder.path"));
         servletHolder.setInitOrder(Integer.parseInt(prop.getProperty("jetty.servletholder.initOrder")));
 
-        Arrays.stream(prop.getProperty("jetty.servletholder.initParameters")
-                .split(","))//DIVIDIMOS ","
-                .map(e-> e.split(":")) //DIVIDIMOS ":"
-                .forEach(e->  servletHolder.setInitParameter(e[0],e[1]));
+        IntStream.range(0,prop.size()/2)
+                .mapToObj(i->{
+                    String param = prop.getProperty("jetty.servletholder.initParameters[0].param");
+                    String value = prop.getProperty("jetty.servletholder.initParameters[0].value");
+                    return new String[]{param,value};
+                }).filter(arr-> arr[0] != null && arr[1] != null)
+                .forEach(arr -> servletHolder.setInitParameter(arr[0],arr[1]));
 
+       /* servletHolder.setInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS, App.class.getName());
+        servletHolder.setInitParameter("jersey.config.server.provider.packages","io.swagger.v3.jaxrs2.integration.resources");
+        */
 
         // Configurar recursos estáticos de Swagger-UI
         String resourceBasePath = Jetty.class.getResource("/swagger-ui-dist").toExternalForm();
