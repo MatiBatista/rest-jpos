@@ -88,8 +88,8 @@ public class Jetty extends QBeanSupport implements JettyMBean {
 
         IntStream.range(0,prop.size()/2)
                 .mapToObj(i->{
-                    String param = prop.getProperty("jetty.servletholder.initParameters[0].param");
-                    String value = prop.getProperty("jetty.servletholder.initParameters[0].value");
+                    String param = prop.getProperty("jetty.servletholder.initParameters[" + i + "].param");
+                    String value = prop.getProperty("jetty.servletholder.initParameters[" + i + "].value");
                     return new String[]{param,value};
                 }).filter(arr-> arr[0] != null && arr[1] != null)
                 .forEach(arr -> servletHolder.setInitParameter(arr[0],arr[1]));
@@ -99,7 +99,7 @@ public class Jetty extends QBeanSupport implements JettyMBean {
         */
 
         // Configurar recursos estáticos de Swagger-UI
-        String resourceBasePath = Jetty.class.getResource("/swagger-ui-dist").toExternalForm();
+        String resourceBasePath = Jetty.class.getResource(prop.getProperty("swagger-ui.directory")).toExternalForm();
         context.setWelcomeFiles(new String[] {"index.html"});
         context.setBaseResourceAsString(resourceBasePath);
         context.addServlet(new ServletHolder(new DefaultServlet()), "/*");

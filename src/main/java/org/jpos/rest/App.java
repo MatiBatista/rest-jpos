@@ -16,7 +16,6 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 
 import org.jpos.rest.Exceptions.ExceptionProviders;
-import org.jpos.rest.Handler.HelloWordHandler;
 import org.jpos.rest.config.inyection.CORSFilter;
 import org.jpos.rest.config.inyection.MyApplicationBinder;
 import org.jpos.rest.config.inyection.ObjectMapperProvider;

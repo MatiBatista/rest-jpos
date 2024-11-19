@@ -1,12 +1,14 @@
 package org.jpos.q2.jetty;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.*;
 import java.util.Properties;
 
-public class PropertiesManager {
+public class PropertiesManager{
 
     public static Properties buildProperties(String propertieFile) throws FileNotFoundException, IOException{
         InputStream input = PropertiesManager.class.getClassLoader().getResourceAsStream(propertieFile);
@@ -14,4 +16,6 @@ public class PropertiesManager {
         output.load(input);
         return output;
     }
+
+
 }
