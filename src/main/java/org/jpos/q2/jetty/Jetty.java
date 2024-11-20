@@ -18,29 +18,22 @@
 
 package org.jpos.q2.jetty;
 
-import io.swagger.v3.jaxrs2.integration.OpenApiServlet;
 import org.eclipse.jetty.ee10.servlet.DefaultServlet;
 import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.eclipse.jetty.ee10.servlet.ServletHolder;
 import org.eclipse.jetty.server.*;
 
-import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
-import org.eclipse.jetty.server.handler.ResourceHandler;
 
 import org.glassfish.jersey.servlet.ServletContainer;
-import org.glassfish.jersey.servlet.ServletProperties;
 import org.jpos.core.Configuration;
 import org.jpos.core.ConfigurationException;
 import org.jpos.q2.QBeanSupport;
-import org.jpos.rest.App;
-import org.jpos.rest.controllers.Echo;
 import org.jpos.security.SensitiveString;
 
-import java.util.Arrays;
 import java.util.Properties;
-import java.util.ServiceLoader;
 import java.util.stream.IntStream;
+
 
 
 /**
@@ -57,7 +50,7 @@ public class Jetty extends QBeanSupport implements JettyMBean {
     public void initService() throws Exception {
 
         //INSTANCIAMOS PROPERTIES
-        Properties prop = PropertiesManager.buildProperties("application.properties");
+        Properties prop = PropertiesManager.buildProperties("jetty.properties");
 
         //CREAMOS INSTANCIA DE SERVIDOR
         server = new Server();
@@ -68,6 +61,7 @@ public class Jetty extends QBeanSupport implements JettyMBean {
 
         //CREAMOS UN SERVER CONNECTOR PARA CONEXIONES DE CLIENTES
         ServerConnector connector = new ServerConnector(server, http11);
+
         connector.setPort(Integer.parseInt(prop.getProperty("server.port")));
         connector.setAcceptQueueSize(Integer.parseInt(prop.getProperty("server.setAcceptQueueSize")));
         server.addConnector(connector);
@@ -85,6 +79,7 @@ public class Jetty extends QBeanSupport implements JettyMBean {
 
         ServletHolder servletHolder = context.addServlet(ServletContainer.class, prop.getProperty("jetty.servletholder.path"));
         servletHolder.setInitOrder(Integer.parseInt(prop.getProperty("jetty.servletholder.initOrder")));
+
 
         IntStream.range(0,prop.size()/2)
                 .mapToObj(i->{

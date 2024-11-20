@@ -15,6 +15,7 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 
+import org.glassfish.jersey.server.ServerProperties;
 import org.jpos.rest.Exceptions.ExceptionProviders;
 import org.jpos.rest.config.inyection.CORSFilter;
 import org.jpos.rest.config.inyection.MyApplicationBinder;
@@ -40,6 +41,7 @@ public class App extends ResourceConfig {
         register(new App.Resolver());
         register(new MyApplicationBinder());
         packages("org.jpos.rest");
+        property(ServerProperties.WADL_FEATURE_DISABLE,true);
         register(ExceptionProviders.class);
         register(ObjectMapperProvider.class);
         register(OpenApiResource.class);
